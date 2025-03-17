@@ -36,8 +36,8 @@ export default function Hero() {
               >
                 View Projects
               </motion.button>
-              </a>
-              <a href="#contact">
+            </a>
+            <a href="#contact">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
