@@ -126,7 +126,7 @@ export default function Contact() {
       // Create a hidden form and submit it
       const formSubmit = document.createElement('form');
       formSubmit.method = 'POST';
-      formSubmit.action = 'https://formsubmit.co/cs23i1027@iiitdm.ac.in';
+      formSubmit.action = 'https://formsubmit.co/yharith16@gmail.com';
       
       Object.entries(data).forEach(([key, value]) => {
         const input = document.createElement('input');
@@ -192,10 +192,10 @@ export default function Contact() {
               <div>
                 <h4 className="text-lg font-medium text-gray-900 dark:text-white">Email</h4>
                 <a 
-                  href="mailto:cs23i1027@iiitdm.ac.in"
+                  href="mailto:yharith16@gmail.com"
                   className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                 >
-                  cs23i1027@iiitdm.ac.in
+                  yharith16@gmail.com
                 </a>
               </div>
             </div>
