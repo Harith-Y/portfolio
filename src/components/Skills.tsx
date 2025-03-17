@@ -1,12 +1,6 @@
-export default function Skills() {
-  const skills = [
-    { category: "Languages", items: ["JavaScript", "TypeScript", "Python", "Java", "C++"] },
-    { category: "Frontend", items: ["React", "Next.js", "Tailwind CSS", "HTML/CSS"] },
-    { category: "Backend", items: ["Node.js", "Express"] },
-    { category: "Database", items: ["MySQL", "MongoDB", "Firebase"] },
-    { category: "Tools", items: ["Git", "AWS", "Linux"] }
-  ];
+import { skills } from '../data/skillsData';
 
+export default function Skills() {
   return (
     <section className="py-20 bg-white dark:bg-gray-900" id="skills">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
