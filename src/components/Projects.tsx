@@ -1,4 +1,5 @@
 import { projects } from '../data/projectsData';
+import { motion } from 'framer-motion';
 
 export default function Projects() {
   return (
@@ -7,7 +8,15 @@ export default function Projects() {
         <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">Featured Projects</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project) => (
-            <div key={project.title} className="bg-white dark:bg-gray-900 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition">
+            <motion.a
+              key={project.title}
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block bg-white dark:bg-gray-900 rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
               <img 
                 src={project.image} 
                 alt={project.title}
@@ -27,7 +36,7 @@ export default function Projects() {
                   ))}
                 </div>
               </div>
-            </div>
+            </motion.a>
           ))}
         </div>
       </div>
