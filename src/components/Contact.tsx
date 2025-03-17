@@ -1,10 +1,48 @@
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { useState } from 'react';
 
 export default function Contact() {
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{
+    type: 'success' | 'error' | null;
+    message: string;
+  }>({ type: null, message: '' });
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Will handle form submission here in the next few commits.
+    setIsSubmitting(true);
+    setSubmitStatus({ type: null, message: '' });
+
+    try {
+      const form = e.currentTarget;
+      const formData = new FormData(form);
+      const data = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        subject: formData.get('subject'),
+        message: formData.get('message'),
+      };
+
+      // Here you would typically send the data to your backend
+      // For now, we'll simulate an API call with a timeout
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Clear the form
+      form.reset();
+      
+      setSubmitStatus({
+        type: 'success',
+        message: 'Thank you for your message! I will get back to you soon.',
+      });
+    } catch (error) {
+      setSubmitStatus({
+        type: 'error',
+        message: 'Sorry, something went wrong. Please try again later.',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -35,7 +73,7 @@ export default function Contact() {
               <Phone className="w-6 h-6 text-blue-600 dark:text-blue-400 mt-1" />
               <div>
                 <h4 className="text-lg font-medium text-gray-900 dark:text-white">Phone</h4>
-                <p className="text-gray-600 dark:text-gray-300">+91 83414 25286</p>
+                <p className="text-gray-600 dark:text-gray-300">+91 8341425286</p>
               </div>
             </div>
 
@@ -68,8 +106,7 @@ export default function Contact() {
                   id="name"
                   name="name"
                   required
-                  placeholder="Enter your name"
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent placeholder-gray-400 dark:placeholder-gray-500"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
                 />
               </div>
 
@@ -82,8 +119,7 @@ export default function Contact() {
                   id="email"
                   name="email"
                   required
-                  placeholder="Enter your email"
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent placeholder-gray-400 dark:placeholder-gray-500"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
                 />
               </div>
 
@@ -96,8 +132,7 @@ export default function Contact() {
                   id="subject"
                   name="subject"
                   required
-                  placeholder="Enter subject"
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent placeholder-gray-400 dark:placeholder-gray-500"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
                 />
               </div>
 
@@ -110,8 +145,7 @@ export default function Contact() {
                   name="message"
                   rows={4}
                   required
-                  placeholder="Enter your message"
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent placeholder-gray-400 dark:placeholder-gray-500"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
                 ></textarea>
               </div>
 
@@ -119,11 +153,24 @@ export default function Contact() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 type="submit"
-                className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                disabled={isSubmitting}
+                className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Send className="w-5 h-5" />
-                Send Message
+                {isSubmitting ? 'Sending...' : 'Send Message'}
               </motion.button>
+
+              {submitStatus.type && (
+                <div
+                  className={`mt-4 p-4 rounded-lg ${
+                    submitStatus.type === 'success'
+                      ? 'bg-green-50 text-green-800 dark:bg-green-900/50 dark:text-green-200'
+                      : 'bg-red-50 text-red-800 dark:bg-red-900/50 dark:text-red-200'
+                  }`}
+                >
+                  {submitStatus.message}
+                </div>
+              )}
             </form>
           </motion.div>
         </div>
