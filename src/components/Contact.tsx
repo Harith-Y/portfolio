@@ -1,6 +1,14 @@
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+// Add validation types
+type FormErrors = {
+  name?: string;
+  email?: string;
+  subject?: string;
+  message?: string;
+};
 
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -8,34 +16,152 @@ export default function Contact() {
     type: 'success' | 'error' | null;
     message: string;
   }>({ type: null, message: '' });
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [touched, setTouched] = useState({
+    name: false,
+    email: false,
+    subject: false,
+    message: false
+  });
+
+  // Handle input changes
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    
+    // Mark field as touched
+    setTouched(prev => ({
+      ...prev,
+      [name]: true
+    }));
+  };
+
+  // Handle field blur for validation
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name } = e.target;
+    setTouched(prev => ({
+      ...prev,
+      [name]: true
+    }));
+  };
+
+  // Validate form
+  useEffect(() => {
+    const newErrors: FormErrors = {};
+    
+    if (touched.name && !formData.name.trim()) {
+      newErrors.name = 'Name is required';
+    }
+    
+    if (touched.email) {
+      if (!formData.email.trim()) {
+        newErrors.email = 'Email is required';
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+        newErrors.email = 'Please enter a valid email address';
+      }
+    }
+    
+    if (touched.subject && !formData.subject.trim()) {
+      newErrors.subject = 'Subject is required';
+    }
+    
+    if (touched.message && (!formData.message.trim() || formData.message.length < 10)) {
+      newErrors.message = 'Please enter a message (at least 10 characters)';
+    }
+    
+    setErrors(newErrors);
+  }, [formData, touched]);
+
+  // Check if form is valid
+  const isFormValid = () => {
+    return (
+      formData.name.trim() !== '' &&
+      formData.email.trim() !== '' &&
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email) &&
+      formData.subject.trim() !== '' &&
+      formData.message.trim() !== '' &&
+      formData.message.length >= 10 &&
+      Object.keys(errors).length === 0
+    );
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    // Force validation on all fields
+    setTouched({
+      name: true,
+      email: true,
+      subject: true,
+      message: true
+    });
+    
+    // Return early if form is invalid
+    if (!isFormValid()) {
+      return;
+    }
+    
     setIsSubmitting(true);
     setSubmitStatus({ type: null, message: '' });
 
     try {
-      const form = e.currentTarget;
-      const formData = new FormData(form);
+      // Create the data object to send
       const data = {
-        name: formData.get('name'),
-        email: formData.get('email'),
-        subject: formData.get('subject'),
-        message: formData.get('message'),
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
       };
-
-      // Here you would typically send the data to your backend
-      // For now, we'll simulate an API call with a timeout
-      await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Clear the form
-      form.reset();
+      // Send via FormSubmit API
+      // Create a hidden form and submit it
+      const formSubmit = document.createElement('form');
+      formSubmit.method = 'POST';
+      formSubmit.action = 'https://formsubmit.co/cs23i1027@iiitdm.ac.in';
+      
+      Object.entries(data).forEach(([key, value]) => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = value as string;
+        formSubmit.appendChild(input);
+      });
+      
+      document.body.appendChild(formSubmit);
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API delay
+      formSubmit.submit();
+      document.body.removeChild(formSubmit);
+      
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      });
+      
+      setTouched({
+        name: false,
+        email: false,
+        subject: false,
+        message: false
+      });
       
       setSubmitStatus({
         type: 'success',
         message: 'Thank you for your message! I will get back to you soon.',
       });
     } catch (error) {
+      console.error('Contact form error:', error);
       setSubmitStatus({
         type: 'error',
         message: 'Sorry, something went wrong. Please try again later.',
@@ -65,7 +191,12 @@ export default function Contact() {
               <Mail className="w-6 h-6 text-blue-600 dark:text-blue-400 mt-1" />
               <div>
                 <h4 className="text-lg font-medium text-gray-900 dark:text-white">Email</h4>
-                <p className="text-gray-600 dark:text-gray-300">cs23i1027@iiitdm.ac.in</p>
+                <a 
+                  href="mailto:cs23i1027@iiitdm.ac.in"
+                  className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                >
+                  cs23i1027@iiitdm.ac.in
+                </a>
               </div>
             </div>
 
@@ -73,7 +204,12 @@ export default function Contact() {
               <Phone className="w-6 h-6 text-blue-600 dark:text-blue-400 mt-1" />
               <div>
                 <h4 className="text-lg font-medium text-gray-900 dark:text-white">Phone</h4>
-                <p className="text-gray-600 dark:text-gray-300">+91 8341425286</p>
+                <a 
+                  href="tel:+918341425286"
+                  className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                >
+                  +91 8341425286
+                </a>
               </div>
             </div>
 
@@ -105,9 +241,16 @@ export default function Contact() {
                   type="text"
                   id="name"
                   name="name"
-                  required
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
+                  value={formData.name}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={`w-full px-4 py-2 rounded-lg border ${
+                    errors.name ? 'border-red-500 dark:border-red-400' : 'border-gray-300 dark:border-gray-600'
+                  } bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent`}
                 />
+                {errors.name && (
+                  <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.name}</p>
+                )}
               </div>
 
               <div>
@@ -118,9 +261,16 @@ export default function Contact() {
                   type="email"
                   id="email"
                   name="email"
-                  required
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
+                  value={formData.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={`w-full px-4 py-2 rounded-lg border ${
+                    errors.email ? 'border-red-500 dark:border-red-400' : 'border-gray-300 dark:border-gray-600'
+                  } bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent`}
                 />
+                {errors.email && (
+                  <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.email}</p>
+                )}
               </div>
 
               <div>
@@ -131,9 +281,16 @@ export default function Contact() {
                   type="text"
                   id="subject"
                   name="subject"
-                  required
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={`w-full px-4 py-2 rounded-lg border ${
+                    errors.subject ? 'border-red-500 dark:border-red-400' : 'border-gray-300 dark:border-gray-600'
+                  } bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent`}
                 />
+                {errors.subject && (
+                  <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.subject}</p>
+                )}
               </div>
 
               <div>
@@ -144,16 +301,23 @@ export default function Contact() {
                   id="message"
                   name="message"
                   rows={4}
-                  required
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
+                  value={formData.message}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={`w-full px-4 py-2 rounded-lg border ${
+                    errors.message ? 'border-red-500 dark:border-red-400' : 'border-gray-300 dark:border-gray-600'
+                  } bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent`}
                 ></textarea>
+                {errors.message && (
+                  <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.message}</p>
+                )}
               </div>
 
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !isFormValid()}
                 className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Send className="w-5 h-5" />
@@ -161,7 +325,9 @@ export default function Contact() {
               </motion.button>
 
               {submitStatus.type && (
-                <div
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
                   className={`mt-4 p-4 rounded-lg ${
                     submitStatus.type === 'success'
                       ? 'bg-green-50 text-green-800 dark:bg-green-900/50 dark:text-green-200'
@@ -169,7 +335,7 @@ export default function Contact() {
                   }`}
                 >
                   {submitStatus.message}
-                </div>
+                </motion.div>
               )}
             </form>
           </motion.div>
