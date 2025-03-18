@@ -3,6 +3,27 @@ import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import emailjs from 'emailjs-com';
 
+interface FormData {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}
+
+interface FormErrors {
+  name?: string;
+  email?: string;
+  subject?: string;
+  message?: string;
+}
+
+interface TouchedFields {
+  name: boolean;
+  email: boolean;
+  subject: boolean;
+  message: boolean;
+}
+
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{
@@ -10,25 +31,117 @@ export default function Contact() {
     message: string;
   }>({ type: null, message: '' });
 
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [touched, setTouched] = useState<TouchedFields>({
+    name: false,
+    email: false,
+    subject: false,
+    message: false
+  });
+
   useEffect(() => {
     // Initialize EmailJS with your public key
     emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
   }, []);
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    
+    // Mark field as touched
+    setTouched(prev => ({
+      ...prev,
+      [name]: true
+    }));
+  };
+
+  // Handle field blur for validation
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name } = e.target;
+    setTouched(prev => ({
+      ...prev,
+      [name]: true
+    }));
+  };
+
+  // Validate form
+  useEffect(() => {
+    const newErrors: FormErrors = {};
+    
+    if (touched.name && !formData.name.trim()) {
+      newErrors.name = 'Name is required';
+    }
+    
+    if (touched.email) {
+      if (!formData.email.trim()) {
+        newErrors.email = 'Email is required';
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+        newErrors.email = 'Please enter a valid email address';
+      }
+    }
+    
+    if (touched.subject && !formData.subject.trim()) {
+      newErrors.subject = 'Subject is required';
+    }
+    
+    if (touched.message && (!formData.message.trim() || formData.message.length < 10)) {
+      newErrors.message = 'Please enter a message (at least 10 characters)';
+    }
+    
+    setErrors(newErrors);
+  }, [formData, touched]);
+
+  // Check if form is valid
+  const isFormValid = () => {
+    return (
+      formData.name.trim() !== '' &&
+      formData.email.trim() !== '' &&
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email) &&
+      formData.subject.trim() !== '' &&
+      formData.message.trim() !== '' &&
+      formData.message.length >= 10 &&
+      Object.keys(errors).length === 0
+    );
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    // Set all fields as touched to trigger validation
+    setTouched({
+      name: true,
+      email: true,
+      subject: true,
+      message: true
+    });
+
+    if (!isFormValid()) {
+      setSubmitStatus({
+        type: 'error',
+        message: 'Please fix the errors in the form before submitting.'
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitStatus({ type: null, message: '' });
 
     try {
-      const form = e.currentTarget;
-      const formData = new FormData(form);
-      
       const templateParams = {
-        from_name: formData.get('name'),
-        from_email: formData.get('email'),
-        subject: formData.get('subject'),
-        message: formData.get('message'),
+        from_name: formData.name,
+        from_email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
       };
 
       await emailjs.send(
@@ -37,8 +150,19 @@ export default function Contact() {
         templateParams
       );
       
-      // Clear the form
-      form.reset();
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      });
+      setTouched({
+        name: false,
+        email: false,
+        subject: false,
+        message: false
+      });
       
       setSubmitStatus({
         type: 'success',
@@ -115,9 +239,15 @@ export default function Contact() {
                   type="text"
                   id="name"
                   name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                   required
                   className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
                 />
+                {touched.name && errors.name && (
+                  <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.name}</p>
+                )}
               </div>
 
               <div>
@@ -128,9 +258,15 @@ export default function Contact() {
                   type="email"
                   id="email"
                   name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                   required
                   className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
                 />
+                {touched.email && errors.email && (
+                  <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.email}</p>
+                )}
               </div>
 
               <div>
@@ -141,9 +277,15 @@ export default function Contact() {
                   type="text"
                   id="subject"
                   name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                   required
                   className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
                 />
+                {touched.subject && errors.subject && (
+                  <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.subject}</p>
+                )}
               </div>
 
               <div>
@@ -153,17 +295,23 @@ export default function Contact() {
                 <textarea
                   id="message"
                   name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                   rows={4}
                   required
                   className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
                 ></textarea>
+                {touched.message && errors.message && (
+                  <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.message}</p>
+                )}
               </div>
 
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !isFormValid()}
                 className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Send className="w-5 h-5" />
