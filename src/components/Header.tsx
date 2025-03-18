@@ -4,13 +4,11 @@ import { motion } from 'framer-motion';
 
 export default function Header() {
   const [darkMode, setDarkMode] = useState(false);
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     // Prevent transition on initial page load
     document.documentElement.classList.add('no-animation');
-    setMounted(true);
-    
+
     // Remove the no-animation class after a small delay
     const timer = setTimeout(() => {
       document.documentElement.classList.remove('no-animation');
