@@ -46,6 +46,15 @@ export default function Hero() {
                 Contact Me
               </motion.button>
             </a>
+            <a href="/resume.pdf" download="Resume_Harith_Yerragolam.pdf">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-green-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-green-700 transition"
+              >
+                Download Resume
+              </motion.button>
+            </a>
           </div>
         </motion.div>
         
