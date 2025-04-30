@@ -199,7 +199,6 @@ export default function Contact() {
               <Mail className="w-6 h-6 text-blue-600 dark:text-blue-400 mt-1" />
               <div>
                 <h4 className="text-lg font-medium text-gray-900 dark:text-white">Email</h4>
-                <p className="text-gray-600 dark:text-gray-300">cs23i1027@iiitdm.ac.in</p>
                 <p className="text-gray-600 dark:text-gray-300">yharith16@gmail.com</p>
               </div>
             </div>

@@ -6,11 +6,11 @@ export interface Skill {
 export const skills: Skill[] = [
     { 
         category: "Languages", 
-        items: ["JavaScript", "TypeScript", "Python", "Java", "C/C++"] 
+        items: ["JavaScript", "TypeScript", "Python", "Java", "C/C++", "MATLAB"] 
     },
     { 
         category: "Frontend", 
-        items: ["React", "Next.js", "Tailwind CSS", "HTML/CSS"] 
+        items: ["React", "Next.js", "Tailwind CSS", "HTML/CSS", "Bootstrap", "Material-UI"] 
     },
     { 
         category: "Backend", 
@@ -22,6 +22,6 @@ export const skills: Skill[] = [
     },
     { 
         category: "Tools", 
-        items: ["Git", "AWS", "Linux"] 
+        items: ["Git", "AWS", "Linux", "Docker", "Railway", "Vercel"] 
     }
 ];
