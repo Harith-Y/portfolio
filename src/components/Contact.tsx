@@ -184,27 +184,27 @@ export default function Contact() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">Contact Me</h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
           {/* Contact Information */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="space-y-8"
+            className="space-y-6 md:space-y-8"
           >
             <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Get in Touch</h3>
             
             <div className="flex items-start space-x-4">
-              <Mail className="w-6 h-6 text-blue-600 dark:text-blue-400 mt-1" />
+              <Mail className="w-6 h-6 text-blue-600 dark:text-blue-400 mt-1 flex-shrink-0" />
               <div>
                 <h4 className="text-lg font-medium text-gray-900 dark:text-white">Email</h4>
-                <p className="text-gray-600 dark:text-gray-300">yharith16@gmail.com</p>
+                <p className="text-gray-600 dark:text-gray-300 break-all">yharith16@gmail.com</p>
               </div>
             </div>
 
             <div className="flex items-start space-x-4">
-              <MapPin className="w-6 h-6 text-blue-600 dark:text-blue-400 mt-1" />
+              <MapPin className="w-6 h-6 text-blue-600 dark:text-blue-400 mt-1 flex-shrink-0" />
               <div>
                 <h4 className="text-lg font-medium text-gray-900 dark:text-white">Location</h4>
                 <p className="text-gray-600 dark:text-gray-300">Chennai, India</p>
@@ -218,7 +218,7 @@ export default function Contact() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="bg-gray-50 dark:bg-gray-800 p-8 rounded-lg"
+            className="bg-gray-50 dark:bg-gray-800 p-6 md:p-8 rounded-lg"
           >
             <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Send Me a Message</h3>
             

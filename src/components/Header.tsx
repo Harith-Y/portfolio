@@ -28,7 +28,7 @@ export default function Header() {
   return (
     <header className="fixed top-0 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm z-50 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
-        <nav className="flex justify-between items-center">
+        <nav className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
           <div className="flex items-center gap-6">
             <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Portfolio</h1>
             <motion.button

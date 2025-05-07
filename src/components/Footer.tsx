@@ -29,7 +29,7 @@ export default function Footer() {
             className="text-center md:text-left"
           >
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              © {currentYear} Harith Y. All rights reserved.
+              © {currentYear} Harith Yerragolam. All rights reserved.
             </p>
           </motion.div>
           
