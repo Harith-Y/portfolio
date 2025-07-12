@@ -49,7 +49,7 @@ export default function Header() {
             <a href="https://github.com/Harith-Y" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
               <Github className="w-6 h-6" />
             </a>
-            <a href="https://www.linkedin.com/in/harith-yerragolam-617486288/" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+            <a href="https://www.linkedin.com/in/harith-yerragolam/" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
               <Linkedin className="w-6 h-6" />
             </a>
             <a href="https://leetcode.com/u/yharith16/" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
