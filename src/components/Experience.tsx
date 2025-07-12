@@ -13,11 +13,26 @@ export default function Experience() {
             className="vertical-timeline-element--education [&_.vertical-timeline-element-date]:text-gray-900 dark:[&_.vertical-timeline-element-date]:text-gray-100"
             contentStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
             contentArrowStyle={{ borderRight: '7px solid  rgb(33, 150, 243)' }}
-            date="2023 - Present"
+            date="2025 - Present"
             iconStyle={{ background: 'rgb(233, 30, 99)', color: '#fff' }}
             icon={<GraduationCap />}
           >
-            <h3 className="vertical-timeline-element-title font-bold">Student, B.Tech in Computer Science</h3>
+            <h3 className="vertical-timeline-element-title font-bold">Student, B.Tech and MS DD in Computer Science</h3>
+            <h4 className="vertical-timeline-element-subtitle">IIITH</h4>
+            <p>
+            Acquired Seat through Lateral Entry Programme. Continuing advanced studies in Computer Science with focus on AI/ML and full-stack development.
+            </p>
+          </VerticalTimelineElement>
+
+          <VerticalTimelineElement
+            className="vertical-timeline-element--education [&_.vertical-timeline-element-date]:text-gray-900 dark:[&_.vertical-timeline-element-date]:text-gray-100"
+            contentStyle={{ background: 'rgb(128, 128, 128)', color: '#fff' }}
+            contentArrowStyle={{ borderRight: '7px solid  rgb(128, 128, 128)' }}
+            date="2023 - 2025"
+            iconStyle={{ background: 'rgb(233, 30, 99)', color: '#fff' }}
+            icon={<GraduationCap />}
+          >
+            <h3 className="vertical-timeline-element-title font-bold">Student, B.Tech and M.Tech DD in Computer Science</h3>
             <h4 className="vertical-timeline-element-subtitle">IIITDM Kancheepuram</h4>
             <p>
             Developed and maintained few full-stack applications using React, Node.js and GitHub.
@@ -26,13 +41,15 @@ export default function Experience() {
 
           <VerticalTimelineElement
             className="vertical-timeline-element--education [&_.vertical-timeline-element-date]:text-gray-900 dark:[&_.vertical-timeline-element-date]:text-gray-100"
+            contentStyle={{ background: 'rgb(128, 128, 128)', color: '#fff' }}
+            contentArrowStyle={{ borderRight: '7px solid  rgb(128, 128, 128)' }}
             date="2021 - 2023"
             iconStyle={{ background: 'rgb(233, 30, 99)', color: '#fff' }}
             icon={<GraduationCap />}
           >
-            <h3 className="vertical-timeline-element-title font-bold text-gray-900">MPC Student</h3>
-            <h4 className="vertical-timeline-element-subtitle text-gray-600">FIITJEE Madhapur, Hyderabad</h4>
-            <p className="text-gray-600">
+            <h3 className="vertical-timeline-element-title font-bold">MPC Student</h3>
+            <h4 className="vertical-timeline-element-subtitle">FIITJEE Madhapur, Hyderabad</h4>
+            <p>
               Worked on Python, specifically GUI based Libraries to make some Mathematical Applications.
             </p>
           </VerticalTimelineElement>
