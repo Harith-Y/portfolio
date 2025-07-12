@@ -14,14 +14,26 @@ export const skills: Skill[] = [
     },
     { 
         category: "Backend", 
-        items: ["Node.js", "Express"] 
+        items: ["Node.js", "Express", "FastAPI", "Spring Boot", "Redis"] 
     },
     { 
         category: "Database",
-        items: ["MySQL", "MongoDB", "Firebase"] 
+        items: ["MySQL", "MongoDB", "Firebase", "Supabase", "PostgreSQL", "Neon DB", "Snowflake Cortex"] 
+    },
+    { 
+        category: "AI/ML", 
+        items: ["TensorFlow", "Mistral API", "Pinecone", "IBM Granite", "Watsonx.ai", "LangChain", "Groq API", "Prompt Engineering"] 
+    },
+    { 
+        category: "Cybersecurity", 
+        items: ["Penetration Testing", "Nmap", "Burp Suite"] 
+    },
+    { 
+        category: "Testing & Analytics", 
+        items: ["A/B Testing", "Predictive Analytics", "Real-time Analytics"] 
     },
     { 
         category: "Tools", 
-        items: ["Git", "AWS", "Linux", "Docker", "Railway", "Vercel"] 
+        items: ["Git", "AWS", "Linux", "Docker", "Railway", "Render", "Vercel", "MCP (Model Context Protocol)"] 
     }
 ];

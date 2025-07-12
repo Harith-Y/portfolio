@@ -12,6 +12,39 @@ export interface Project {
 
 export const projects: Project[] = [
     {
+        title: "CyberCortex (RAISE YOUR HACK 2025 Hackathon Multi-track Winner Project)",
+        description: "Next-gen multi-agent cybersecurity platform for autonomous, ethical penetration testing and real-time analytics. Built for the Blackbox.ai Track at Raise Your Hack 2025, combining Groq API (Llama-4), LangChain, and secure uAgent coordination.",
+        tech: ["Next.js 14", "FastAPI", "Redis", "Celery", "PostgreSQL", "Docker", "LangChain", "Groq API", "Coral Protocol", "Fetch.ai uAgents", "Snowflake Cortex"],
+        image: "https://images.unsplash.com/photo-1510511459019-5dda7724fd87?auto=format&fit=crop&w=800&q=80",
+        github: "https://github.com/Aditya-Guntur/CyberCortex",
+        demo: "",
+        role: "Lead Developer / AI Security Engineer",
+        challenges: "Coordinating multiple AI agents, ensuring secure encrypted communications, and building a compliant, scalable architecture.",
+        impact: "Delivered enterprise-grade, continuous penetration testing and real-time analytics, winning multiple tracks at Raise Your Hack 2025."
+    },
+    {
+        title: "Automated Marketing Content Generator and Optimizer",
+        description: "AI-powered platform for A/B tested marketing content with analytics, built using IBM granite-3-8b-instruct model. Generates and optimizes marketing content with predictive analytics and real-time A/B testing.",
+        tech: ["React.js", "Node.js", "Spring Boot", "Watsonx.ai", "IBM Granite", "Neon DB"],
+        image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=800&q=80",
+        github: "https://github.com/ShriHarieVigneshRD/IBM_AIMarketingAgency",
+        demo: "",
+        role: "Full Stack Developer / Prompt Engineer",
+        challenges: "Integrating predictive analytics, real-time A/B testing optimization, and scalable, secure architecture.",
+        impact: "Empowered marketers and agencies to generate high-conversion content and optimize campaigns with data-driven insights."
+    },
+    {
+        title: "AI Tutor",
+        description: "Designed an AI-powered tutor that adapts to each learner’s journey and autonomously plans personalized content and study schedules. Features include progress tracking, RAG system for resource retrieval, adaptive content generation, and an autonomous scheduler using reinforcement learning.",
+        tech: ["React", "Node.js", "Mistral API", "Pinecone", "Firebase", "TensorFlow Recommenders"],
+        image: "https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=800&q=80",
+        github: "https://github.com/Harith-Y/AI-Powered-Tutoring-Dashboard",
+        demo: "",
+        role: "Full Stack Developer / AI Engineer",
+        challenges: "Balancing personalization without overfitting, real-time schedule optimization, and curating high-quality learning sources.",
+        impact: "Enabled personalized, adaptive learning experiences with real-time progress tracking and dynamic content delivery."
+    },
+    {
         title: "Music Club App",
         description: "Official website for the Music Club of IIITDM Kancheepuram, featuring club activities, events, member information, and an admin dashboard for content management.",
         tech: ["Next.js", "React", "TypeScript", "Firebase", "Tailwind CSS"],
