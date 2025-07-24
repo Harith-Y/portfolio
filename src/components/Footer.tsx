@@ -15,6 +15,7 @@ export default function Footer() {
     { label: 'Projects', href: '#projects' },
     { label: 'Experience', href: '#experience' },
     { label: 'Contact', href: '#contact' },
+    { label: 'Blog', href: 'https://medium.com/@yharith' },
   ];
 
   return (
